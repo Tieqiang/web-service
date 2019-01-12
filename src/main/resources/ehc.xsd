@@ -1,0 +1,17 @@
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified"
+            targetNamespace="http://webservice.ehc.cdxt.com/" xmlns:tns="http://webservice.ehc.cdxt.com/"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="RHCMessageServerRequest" type="tns:RHCMessageServerRequest"></xsd:element>
+    <xsd:complexType name="RHCMessageServerRequest">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="arg0" type="xsd:string"></xsd:element>
+            <xsd:element minOccurs="0" name="arg1" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="RHCMessageServerResponse" type="tns:RHCMessageServerResponse"></xsd:element>
+    <xsd:complexType name="RHCMessageServerResponse">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="return" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
