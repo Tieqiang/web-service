@@ -1,4 +1,4 @@
-package com.dchealth.webservice.config;
+package com.dchealth.webservice.endpoint;
 
 
 import com.cdxt.ehc.webservice.RHCMessageServerRequest;
