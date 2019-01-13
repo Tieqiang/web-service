@@ -1,7 +1,8 @@
 package com.dchealth.webservice;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-
+@XmlRootElement(name="user")
 public class UserInfo implements Serializable {
     private String user_name ;
     private String password;
