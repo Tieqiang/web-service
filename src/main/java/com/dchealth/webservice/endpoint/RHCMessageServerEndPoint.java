@@ -4,9 +4,7 @@ package com.dchealth.webservice.endpoint;
 import com.cdxt.ehc.webservice.RHCMessageServerRequest;
 import com.cdxt.ehc.webservice.RHCMessageServerResponse;
 import com.dchealth.webservice.service.BaseService;
-import com.dchealth.webservice.vo.ActionObject;
-import com.dchealth.webservice.vo.BaseResponse;
-import com.dchealth.webservice.vo.MessageInterface;
+import com.dchealth.webservice.vo.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -21,7 +19,15 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Endpoint
@@ -40,19 +46,31 @@ public class RHCMessageServerEndPoint implements ApplicationContextAware {
     @ResponsePayload
     public RHCMessageServerResponse RHCMessageServer(@RequestPayload RHCMessageServerRequest rhcMessageServerRequest) throws Exception {
 
+        JAXBContext jc = JAXBContext.newInstance(BaseResponse.class, CardRegistMessage.class, PersonInfo.class, ActionObject.class);
+        Marshaller marshaller = jc.createMarshaller();
+        Unmarshaller unmarshaller = jc.createUnmarshaller();
+
+
         ObjectMapper xmlMapper = new XmlMapper();
         String action = rhcMessageServerRequest.getArg0();
         String message = rhcMessageServerRequest.getArg1();
-        ActionObject actionObject = xmlMapper.readValue(action, ActionObject.class);
+        ActionObject actionObject =(ActionObject) unmarshaller.unmarshal(new StringReader(action));
         System.out.println(objectMapper.writeValueAsString(actionObject));
+
         String bussinessCode = actionObject.getBussinessCode();
         BaseService baseService = (BaseService) context.getBean(bussinessCode);
         Object responseMessage = baseService.execRequest(message);
 
-        BaseResponse baseResponse = new BaseResponse(responseMessage);
+        BaseResponse baseResponse = new BaseResponse();
+        List<Object> list = new ArrayList<>();
+        list.add(responseMessage);
+        baseResponse.setEntities(list);
+
+        StringWriter writer = new StringWriter();
+        marshaller.marshal(baseResponse,writer);
 
         RHCMessageServerResponse response = new RHCMessageServerResponse();
-        response.setReturn(xmlMapper.writeValueAsString(baseResponse));
+        response.setReturn(writer.toString());
         return response;
     }
 

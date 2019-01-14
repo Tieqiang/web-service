@@ -1,27 +1,32 @@
 package com.dchealth.webservice.vo;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import javax.xml.bind.annotation.*;
+import java.util.List;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
+@XmlRootElement(name = "response")
+public class BaseResponse {
 
-@JacksonXmlRootElement(localName = "response")
-public class BaseResponse<T> implements ResponseInterface {
-
-
+    private String resultCode;
     private String result;
     private String desc;
 
-    private T t_objectName;
-
     public BaseResponse() {
+        this.resultCode = "0";
+        this.result = "成功";
     }
 
-    public BaseResponse(T t) {
-        this.t_objectName = t;
+    private List<Object> entities;
+
+    @XmlElement(name = "resultCode")
+    public String getResultCode() {
+        return resultCode;
     }
 
+
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
+    }
+    @XmlElement(name = "result")
     public String getResult() {
         return result;
     }
@@ -29,7 +34,7 @@ public class BaseResponse<T> implements ResponseInterface {
     public void setResult(String result) {
         this.result = result;
     }
-
+    @XmlElement(name = "desc")
     public String getDesc() {
         return desc;
     }
@@ -38,27 +43,13 @@ public class BaseResponse<T> implements ResponseInterface {
         this.desc = desc;
     }
 
-    public T getT_objectName() {
-        return t_objectName;
+    @XmlAnyElement(lax = true)
+    public List<Object> getEntities() {
+        return entities;
     }
 
-    public void setT_objectName(T t_objectName) {
-        this.t_objectName = t_objectName;
-    }
-
-    public <M> M getTObject(M c) throws IllegalAccessException, InstantiationException, InvocationTargetException {
-        Method[] declaredMethods = c.getClass().getDeclaredMethods();
-        for (Method method : declaredMethods) {
-            String methodName = method.getName();
-            if (methodName.startsWith("set")) {
-                String paraName = methodName.substring(3);
-                paraName = paraName.substring(0, 1).toLowerCase() + paraName.substring(1);
-                if(this.t_objectName instanceof LinkedHashMap){
-                    method.invoke(c,((LinkedHashMap) this.t_objectName).get(paraName));
-                }
-            }
-        }
-        return c ;
+    public void setEntities(List<Object> entities) {
+        this.entities = entities;
     }
 
 }

@@ -2,6 +2,8 @@ package com.dchealth.webservice.vo;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * 居民姓名	name	String	32	Y
  联系电话	telephone	String	11	Y
@@ -18,7 +20,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
  手机号码	cellphone	String	20
  工作单位	unit	String	100
  */
-@JacksonXmlRootElement(localName = "request")
+@XmlRootElement(name = "request")
 public class CardRegistMessage implements MessageInterface{
 
     private String name ;

@@ -3,6 +3,7 @@ package com.dchealth.webservice.vo;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.UUID;
 /**
  * 访问请求的Action类
  */
-@JacksonXmlRootElement(localName = "request")
+@XmlRootElement(name = "request")
 public class ActionObject implements ActionInterface {
 
     //消息标识符号
