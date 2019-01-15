@@ -1,0 +1,7 @@
+package com.dchealth.webservice.vo.request;
+
+import com.dchealth.webservice.vo.MessageInterface;
+
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement(name = "request")
+public class ${className} implements MessageInterface{
