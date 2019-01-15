@@ -5,6 +5,8 @@ import com.cdxt.ehc.webservice.RHCMessageServerRequest;
 import com.cdxt.ehc.webservice.RHCMessageServerResponse;
 import com.dchealth.webservice.service.BaseService;
 import com.dchealth.webservice.vo.*;
+import com.dchealth.webservice.vo.response.PersonInfo;
+import com.dchealth.webservice.vo.response.TempCardApplyResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -46,7 +48,7 @@ public class RHCMessageServerEndPoint implements ApplicationContextAware {
     @ResponsePayload
     public RHCMessageServerResponse RHCMessageServer(@RequestPayload RHCMessageServerRequest rhcMessageServerRequest) throws Exception {
 
-        JAXBContext jc = JAXBContext.newInstance(BaseResponse.class, CardRegistMessage.class, PersonInfo.class, ActionObject.class);
+        JAXBContext jc = JAXBContext.newInstance(BaseResponse.class, CardRegistMessage.class, PersonInfo.class, TempCardApplyResponse.class, ActionObject.class);
         Marshaller marshaller = jc.createMarshaller();
         Unmarshaller unmarshaller = jc.createUnmarshaller();
 
@@ -60,12 +62,15 @@ public class RHCMessageServerEndPoint implements ApplicationContextAware {
         String bussinessCode = actionObject.getBussinessCode();
         BaseService baseService = (BaseService) context.getBean(bussinessCode);
         Object responseMessage = baseService.execRequest(message);
-
-        BaseResponse baseResponse = new BaseResponse();
-        List<Object> list = new ArrayList<>();
-        list.add(responseMessage);
-        baseResponse.setEntities(list);
-
+        ResponseInterface baseResponse = null ;
+        if(responseMessage instanceof ResponseInterface){
+            baseResponse = (ResponseInterface) responseMessage;
+        }else{
+            baseResponse =new BaseResponse();
+            List<Object> list = new ArrayList<>();
+            list.add(responseMessage);
+            baseResponse.setEntities(list);
+        }
         StringWriter writer = new StringWriter();
         marshaller.marshal(baseResponse,writer);
 
