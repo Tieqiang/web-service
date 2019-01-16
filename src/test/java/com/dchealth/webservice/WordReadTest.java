@@ -25,12 +25,12 @@ import java.util.*;
 public class WordReadTest {
 
 
-    public List<ObjectSupper> readWordTest() throws IOException, OpenXML4JException, IllegalAccessException {
+    public List<ObjectSupper> readWordTest() throws Exception {
 
         HashMap<String, String> nameKeys = this.getNameKeys();
 
 //        POIXMLDocument
-        FileInputStream fileInputStream = new FileInputStream(new File(this.getClass().getResource("/1.docx").getPath()));
+        FileInputStream fileInputStream = new FileInputStream(new File(this.getClass().getResource("/1.docx").toURI().getPath()));
         XWPFDocument document = new XWPFDocument(fileInputStream);
 
         System.out.println("----------------------------所有文档结束----------------------------------");
@@ -155,7 +155,7 @@ public class WordReadTest {
 
 
     @Test
-    public void createClass() throws OpenXML4JException, IllegalAccessException, IOException, DocumentException {
+    public void createClass() throws Exception{
 
 
 //        List<ObjectSupper> objectSuppers = this.readWordTest();
@@ -248,9 +248,9 @@ public class WordReadTest {
         }
     }
 
-    private void createPbMessage(List<ObjectSupper> objectSuppers) throws IOException {
+    private void createPbMessage(List<ObjectSupper> objectSuppers) throws Exception {
 
-        File rFile = new File(this.getClass().getResource("/PbRequest.template").getPath());
+        File rFile = new File(this.getClass().getResource("/PbRequest.template").toURI().getPath());
         FileReader fileReader = new FileReader(rFile);
         char[] buffer = new char[2000];
         fileReader.read(buffer);
@@ -275,7 +275,7 @@ public class WordReadTest {
             template = template.replace("${variables}", sbVarible.toString());
             template = template.replace("${toJson}", sbToJson.toString());
             template = template.replace("${parseJson}", sbParseJson.toString());
-            File file = new File(this.getClass().getResource("").getPath() + "/" + className + ".sru");
+            File file = new File(this.getClass().getResource("").toURI().getPath() + "/" + className + ".sru");
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -292,13 +292,13 @@ public class WordReadTest {
         char[] buffer = new char[2000];
         fileReader.read(buffer);
         String souceTemplate = new String(buffer);
-        return souceTemplate;
+        return souceTemplate.trim();
     }
-    private void createPbResponse() throws IOException {
+    private void createPbResponse() throws Exception {
 
-        String souceTemplate = this.readTemplate(this.getClass().getResource("/PbResponse.template").getPath());
-        String parseJsonEntitiesTemplate = this.readTemplate(this.getClass().getResource("/PbResponseParseJsonEntities.template").getPath());
-        String toJsonEntitiesTemplate = this.readTemplate(this.getClass().getResource("/PbResponseToJsonEntities.template").getPath());
+        String souceTemplate = this.readTemplate(this.getClass().getResource("/PbResponse.template").toURI().getPath());
+        String parseJsonEntitiesTemplate = this.readTemplate(this.getClass().getResource("/PbResponseParseJsonEntities.template").toURI().getPath());
+        String toJsonEntitiesTemplate = this.readTemplate(this.getClass().getResource("/PbResponseToJsonEntities.template").toURI().getPath());
         Set<Class> set = ClassScaner.scan("com.dchealth.webservice.vo.response", null);
         String entityName = "person_info";
         for (Class clazz : set) {
@@ -324,18 +324,18 @@ public class WordReadTest {
                 }
 
             }
-            template = template.replace("${className}", className).trim();
+            template = template.replace("${className}", className);
             template = template.replace("${variables}", sbVarible.toString());
             template = template.replace("${toJson}", sbToJson.toString());
-            template = template.replace("${parseJson}", sbParseJson.toString());
-            File file = new File(this.getClass().getResource("").getPath() + "/" + className + ".sru");
+            template = template.replace("${parseJson}", sbParseJson.toString()).trim();
+            File file = new File(this.getClass().getResource("").toURI().getPath() + "/" + className + ".sru");
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(template);
-            fileWriter.flush();
-            fileWriter.close();
+            FileWriter writer = new FileWriter(file);
+            writer.write(template);
+            writer.flush();
+            writer.close();
         }
     }
 

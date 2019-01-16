@@ -1,16 +1,14 @@
-$PBExportHeader$card_message.sru
+$PBExportHeader$${className}.sru
 forward
-global type card_message from nonvisualobject
+global type ${className} from nonvisualobject
 end type
 end forward
 
-global type card_message from nonvisualobject autoinstantiate
+global type ${className} from nonvisualobject autoinstantiate
 end type
 
 type variables
-string name
-string sex
-string address
+${variables}
 end variables
 
 forward prototypes
@@ -21,9 +19,7 @@ end prototypes
 public function string to_json ();
 sailjson json
 json = create sailjson
-json.setattribute( "name", name)
-json.setattribute( "sex",sex)
-json.setattribute( "address",address)
+${toJson}
 return json.getformatjson("")
 end function
 
@@ -32,17 +28,15 @@ sailjson json
 json = create sailjson
 json.parse( as_json)
 
-name = json.getattribute( "name")
-sex = json.getattribute( "sex")
-address = json.getattribute( "address")
+${parseJson}
 end subroutine
 
-on card_message.create
-call super::create
+on ${className}.create
 TriggerEvent( this, "constructor" )
+call super::create
 end on
 
-on card_message.destroy
+on ${className}.destroy
 TriggerEvent( this, "destructor" )
 call super::destroy
 end on

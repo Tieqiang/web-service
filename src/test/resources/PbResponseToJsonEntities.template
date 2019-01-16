@@ -1,4 +1,3 @@
-
 sailjson json_entity
 int li,li_count
 if not isnull(res_entities) then
