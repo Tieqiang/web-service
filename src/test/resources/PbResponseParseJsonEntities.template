@@ -1,0 +1,12 @@
+sailjson json_entity
+any larray[]
+int li, li_count
+li_count = json.getarray( 'entities', larray)
+if li_count>0 then
+	for li = 1 to li_count
+		json_entity = larray[li]
+		${entityName} entity
+		entity.parse_json( json_entity.getformatjson("") )
+		res_entities[li]=entity
+	next
+end if
