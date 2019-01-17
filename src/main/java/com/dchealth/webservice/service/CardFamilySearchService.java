@@ -1,7 +1,7 @@
 package com.dchealth.webservice.service;
 
 
-import com.dchealth.webservice.vo.response.CardFamillySearchResponse;
+import com.dchealth.webservice.vo.response.CardFamilySearchResponse;
 import com.dchealth.webservice.vo.response.PersonInfo;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class CardFamilySearchService extends BaseService {
 
     @Override
     public Object execRequest(String message) throws Exception {
-        CardFamillySearchResponse cardFamillySearchResponse = new CardFamillySearchResponse();
+        CardFamilySearchResponse cardFamillySearchResponse = new CardFamilySearchResponse();
         cardFamillySearchResponse.setTotal(1000);
         List<Object> objects = new ArrayList<>();
 
