@@ -5,20 +5,20 @@ import com.dchealth.webservice.vo.BaseResponse;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name="response")
 public class OrgCardNumSearchResponse extends BaseResponse {
 
-    private int count ;
+    private String count ;
 
     public OrgCardNumSearchResponse() {
         super();
     }
 
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
 }

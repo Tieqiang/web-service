@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import java.beans.PropertyDescriptor;
 import java.io.*;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.util.*;
 
 public class WordReadTest {
@@ -316,7 +317,7 @@ public class WordReadTest {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileWriter writer = new FileWriter(file);
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),"gbk" ) ;
             writer.write(template);
             writer.flush();
             writer.close();
@@ -370,7 +371,7 @@ public class WordReadTest {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            FileWriter writer = new FileWriter(file);
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),"gbk" ) ;
             writer.write(template);
             writer.flush();
             writer.close();

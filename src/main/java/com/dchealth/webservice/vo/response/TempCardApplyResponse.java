@@ -5,7 +5,7 @@ import com.dchealth.webservice.vo.BaseResponse;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name="response")
 public class TempCardApplyResponse extends BaseResponse {
 
     private String qr_code;//二维码内容|

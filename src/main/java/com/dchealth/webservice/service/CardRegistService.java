@@ -3,6 +3,7 @@ package com.dchealth.webservice.service;
 import com.dchealth.webservice.vo.ActionObject;
 import com.dchealth.webservice.vo.BaseResponse;
 import com.dchealth.webservice.vo.CardRegistMessage;
+import com.dchealth.webservice.vo.EntitiesResponse;
 import com.dchealth.webservice.vo.response.PersonInfo;
 import com.dchealth.webservice.vo.response.TempCardApplyResponse;
 import org.springframework.beans.BeanUtils;
@@ -33,7 +34,7 @@ public class CardRegistService extends BaseService {
         tempCardApplyResponse.setQr_code("123123123");
         PersonInfo p = new PersonInfo();
         BeanUtils.copyProperties(cardRegistMessage, p);
-        BaseResponse baseResponse = new BaseResponse();
+        EntitiesResponse baseResponse = new EntitiesResponse();
         List<Object> list = new ArrayList<>();
         list.add(p);
         baseResponse.setEntities(list);

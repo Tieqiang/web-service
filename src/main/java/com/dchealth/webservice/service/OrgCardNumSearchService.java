@@ -8,7 +8,7 @@ public class OrgCardNumSearchService extends BaseService {
     @Override
     public Object execRequest(String message) throws Exception {
         OrgCardNumSearchResponse orgCardNumSearchResponse = new OrgCardNumSearchResponse();
-        orgCardNumSearchResponse.setCount(100);
+        orgCardNumSearchResponse.setCount("100");
         return orgCardNumSearchResponse;
     }
 }

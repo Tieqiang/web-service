@@ -1,26 +1,26 @@
 package com.dchealth.webservice.vo.response;
 
 
-import com.dchealth.webservice.vo.BaseResponse;
+import com.dchealth.webservice.vo.EntitiesResponse;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-public class CardFamilySearchResponse extends BaseResponse {
+@XmlRootElement(name="response")
+public class CardFamilySearchResponse extends EntitiesResponse {
 
     public CardFamilySearchResponse() {
         super();
     }
 
-    private int total;//家庭成员总数|
+    private String total;//家庭成员总数|
 
 
 
-    public int getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(String total) {
         this.total = total;
     }
 

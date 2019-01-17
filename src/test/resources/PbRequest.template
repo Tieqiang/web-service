@@ -19,16 +19,25 @@ end prototypes
 public function string to_json ();
 sailjson json
 json = create sailjson
-${toJson}
-return json.getformatjson("")
+
+try
+    ${toJson}
+    return json.getformatjson("")
+catch(runtimeerror e)
+	messagebox("错误","生成入参失败！~r~n"+e.text)
+end try
 end function
 
 public subroutine parse_json (string as_json);
 sailjson json
 json = create sailjson
-json.parse( as_json)
 
-${parseJson}
+try
+    json.parse( as_json)
+    ${parseJson}
+catch(runtimeerror e)
+	messagebox("错误","解析入参失败！~r~n"+e.text+"~r~n"+as_json)
+end try
 end subroutine
 
 on ${className}.create

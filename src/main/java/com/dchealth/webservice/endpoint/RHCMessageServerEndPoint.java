@@ -5,13 +5,7 @@ import com.cdxt.ehc.webservice.RHCMessageServerRequest;
 import com.cdxt.ehc.webservice.RHCMessageServerResponse;
 import com.dchealth.webservice.service.BaseService;
 import com.dchealth.webservice.vo.*;
-import com.dchealth.webservice.vo.response.EHCCardInfo;
-import com.dchealth.webservice.vo.response.NewBornResponse;
-import com.dchealth.webservice.vo.response.PersonInfo;
-import com.dchealth.webservice.vo.response.TempCardApplyResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -24,10 +18,8 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.IOException;
+import javax.xml.bind.JAXB;
+import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -49,16 +41,10 @@ public class RHCMessageServerEndPoint implements ApplicationContextAware {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "RHCMessageServer")
     @ResponsePayload
     public RHCMessageServerResponse RHCMessageServer(@RequestPayload RHCMessageServerRequest rhcMessageServerRequest) throws Exception {
-
-        JAXBContext jc = JAXBContext.newInstance(BaseResponse.class, EHCCardInfo.class, NewBornResponse.class, CardRegistMessage.class, PersonInfo.class, TempCardApplyResponse.class, ActionObject.class);
-        Marshaller marshaller = jc.createMarshaller();
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
-
-
-        ObjectMapper xmlMapper = new XmlMapper();
         String action = rhcMessageServerRequest.getArg0();
         String message = rhcMessageServerRequest.getArg1();
-        ActionObject actionObject =(ActionObject) unmarshaller.unmarshal(new StringReader(action));
+        ActionObject actionObject =JAXB.unmarshal(new StreamSource(new StringReader(action)), ActionObject.class);
+//        ActionObject actionObject =(ActionObject) unmarshaller.unmarshal(new StringReader(action));
         System.out.println(objectMapper.writeValueAsString(actionObject));
 
         String bussinessCode = actionObject.getBussinessCode();
@@ -68,13 +54,14 @@ public class RHCMessageServerEndPoint implements ApplicationContextAware {
         if(responseMessage instanceof ResponseInterface){
             baseResponse = (ResponseInterface) responseMessage;
         }else{
-            baseResponse =new BaseResponse();
+            baseResponse =new EntitiesResponse();
             List<Object> list = new ArrayList<>();
             list.add(responseMessage);
-            baseResponse.setEntities(list);
+            ((EntitiesResponse)baseResponse).setEntities(list);
         }
         StringWriter writer = new StringWriter();
-        marshaller.marshal(baseResponse,writer);
+        JAXB.marshal(baseResponse,writer);
+//        marshaller.marshal(baseResponse,writer);
 
         RHCMessageServerResponse response = new RHCMessageServerResponse();
         response.setReturn(writer.toString());

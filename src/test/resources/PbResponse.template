@@ -20,17 +20,25 @@ public function string to_json ();
 sailjson json
 
 json = create sailjson
+try
 ${toJson}
 return json.getformatjson("")
+catch(runtimeerror e)
+	messagebox("错误","出参格式化失败！~r~n"+e.text)
+end try
 end function
 
 public subroutine parse_json (string as_json);
 sailjson json
 
 json = create sailjson
+
+try
 json.parse( as_json)
 ${parseJson}
-
+catch(runtimeerror e)
+	messagebox("错误","解析出参失败！~r~n"+e.text+"~r~n"+as_json)
+end try
 end subroutine
 
 on ${className}.create

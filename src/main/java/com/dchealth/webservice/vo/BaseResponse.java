@@ -1,5 +1,9 @@
 package com.dchealth.webservice.vo;
 
+import com.dchealth.webservice.vo.ResponseInterface;
+import com.dchealth.webservice.vo.response.EHCCardInfo;
+import com.dchealth.webservice.vo.response.PersonInfo;
+
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
@@ -15,7 +19,6 @@ public class BaseResponse implements ResponseInterface {
         this.result = "成功";
     }
 
-    private List<Object> entities;
 
     @XmlElement(name = "resultCode")
     public String getResultCode() {
@@ -43,13 +46,5 @@ public class BaseResponse implements ResponseInterface {
         this.desc = desc;
     }
 
-    @XmlAnyElement(lax = true)
-    public List<Object> getEntities() {
-        return entities;
-    }
-
-    public void setEntities(List<Object> entities) {
-        this.entities = entities;
-    }
 
 }

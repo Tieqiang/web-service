@@ -5,7 +5,7 @@ import com.dchealth.webservice.vo.BaseResponse;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name="response")
 public class TempCardCheckResponse extends BaseResponse {
 
     private String name;//姓名|

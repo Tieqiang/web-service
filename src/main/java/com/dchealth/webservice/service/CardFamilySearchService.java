@@ -14,7 +14,7 @@ public class CardFamilySearchService extends BaseService {
     @Override
     public Object execRequest(String message) throws Exception {
         CardFamilySearchResponse cardFamillySearchResponse = new CardFamilySearchResponse();
-        cardFamillySearchResponse.setTotal(1000);
+        cardFamillySearchResponse.setTotal("1000");
         List<Object> objects = new ArrayList<>();
 
         for(int i = 0 ;i<10;i++){

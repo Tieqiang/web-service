@@ -5,6 +5,7 @@ import com.dchealth.webservice.vo.ActionObject;
 import com.dchealth.webservice.vo.BaseResponse;
 import com.dchealth.webservice.vo.CardRegistMessage;
 import com.dchealth.webservice.vo.request.CardBindingForFamilyMessage;
+import com.dchealth.webservice.vo.EntitiesResponse;
 import com.dchealth.webservice.vo.response.PersonInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class CardBindingForFamilyService extends BaseService {
         PersonInfo personInfoMessage = new PersonInfo();
 
         BeanUtils.copyProperties(cardBindingForFamillyMessage, personInfoMessage);
-        BaseResponse baseResponse = new BaseResponse();
+        EntitiesResponse baseResponse = new EntitiesResponse();
         List<Object> list = new ArrayList<>();
         list.add(personInfoMessage);
         baseResponse.setEntities(list);

@@ -14,13 +14,13 @@ public class GetNewBornService extends BaseService {
         NewBornResponse newBornResponse = new NewBornResponse();
 
 
-        List<PersonInfo> personInfos = new ArrayList<>();
+        List<Object> personInfos = new ArrayList<>();
         for(int i =0 ;i<3;i++){
             PersonInfo personInfo = new PersonInfo();
             personInfo.setName("新生儿"+i);
             personInfos.add(personInfo);
         }
-        newBornResponse.setPersoninfos(personInfos);
+        newBornResponse.setEntities(personInfos);
         return newBornResponse;
     }
 }
