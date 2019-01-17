@@ -5,6 +5,8 @@ import com.cdxt.ehc.webservice.RHCMessageServerRequest;
 import com.cdxt.ehc.webservice.RHCMessageServerResponse;
 import com.dchealth.webservice.service.BaseService;
 import com.dchealth.webservice.vo.*;
+import com.dchealth.webservice.vo.response.EHCCardInfo;
+import com.dchealth.webservice.vo.response.NewBornResponse;
 import com.dchealth.webservice.vo.response.PersonInfo;
 import com.dchealth.webservice.vo.response.TempCardApplyResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,7 +50,7 @@ public class RHCMessageServerEndPoint implements ApplicationContextAware {
     @ResponsePayload
     public RHCMessageServerResponse RHCMessageServer(@RequestPayload RHCMessageServerRequest rhcMessageServerRequest) throws Exception {
 
-        JAXBContext jc = JAXBContext.newInstance(BaseResponse.class, CardRegistMessage.class, PersonInfo.class, TempCardApplyResponse.class, ActionObject.class);
+        JAXBContext jc = JAXBContext.newInstance(BaseResponse.class, EHCCardInfo.class, NewBornResponse.class, CardRegistMessage.class, PersonInfo.class, TempCardApplyResponse.class, ActionObject.class);
         Marshaller marshaller = jc.createMarshaller();
         Unmarshaller unmarshaller = jc.createUnmarshaller();
 

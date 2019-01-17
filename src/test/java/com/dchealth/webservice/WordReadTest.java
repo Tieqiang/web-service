@@ -155,7 +155,7 @@ public class WordReadTest {
 
 
     @Test
-    public void createClass() throws Exception{
+    public void createClass() throws Exception {
 
 
 //        List<ObjectSupper> objectSuppers = this.readWordTest();
@@ -248,6 +248,7 @@ public class WordReadTest {
         }
     }
 
+
     private void createPbMessage(List<ObjectSupper> objectSuppers) throws Exception {
 
         File rFile = new File(this.getClass().getResource("/PbRequest.template").toURI().getPath());
@@ -285,6 +286,42 @@ public class WordReadTest {
             fileWriter.close();
         }
     }
+    @Test
+    public void createPbMessage() throws Exception {
+
+        String souceTemplate = this.readTemplate(this.getClass().getResource("/PbRequest.template").toURI().getPath());
+        Set<Class> set = ClassScaner.scan("com.dchealth.webservice.vo.request", null);
+
+        for (Class clazz : set) {
+            String template = souceTemplate;
+            StringBuilder sbVarible = new StringBuilder();
+            StringBuilder sbToJson = new StringBuilder();
+            StringBuilder sbParseJson = new StringBuilder();
+            String className = StringUtil.underscoreName(clazz.getSimpleName());
+            for (PropertyDescriptor d : BeanUtils.getPropertyDescriptors(clazz)) {
+                if (d.getName().equalsIgnoreCase("class")) {
+                    continue;
+                }
+                sbVarible.append(d.getPropertyType().getSimpleName()).append(" ").append("msg_").append(d.getName()).append("\r\n");
+                sbToJson.append("json.setattribute( \"").append(d.getName()).append("\",").append("msg_").append(d.getName()).append(")").append("\r\n");
+                sbParseJson.append("msg_").append(d.getName()).append("= json.getattribute( \"").append(d.getName()).append("\")").append("\r\n");
+
+
+            }
+            template = template.replace("${className}", className);
+            template = template.replace("${variables}", sbVarible.toString());
+            template = template.replace("${toJson}", sbToJson.toString());
+            template = template.replace("${parseJson}", sbParseJson.toString()).trim();
+            File file = new File(this.getClass().getResource("").toURI().getPath() + "/" + className + ".sru");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter writer = new FileWriter(file);
+            writer.write(template);
+            writer.flush();
+            writer.close();
+        }
+    }
 
     private String readTemplate(String path) throws IOException {
         File rFile = new File(path);
@@ -294,7 +331,8 @@ public class WordReadTest {
         String souceTemplate = new String(buffer);
         return souceTemplate.trim();
     }
-    private void createPbResponse() throws Exception {
+    @Test
+    public void createPbResponse() throws Exception {
 
         String souceTemplate = this.readTemplate(this.getClass().getResource("/PbResponse.template").toURI().getPath());
         String parseJsonEntitiesTemplate = this.readTemplate(this.getClass().getResource("/PbResponseParseJsonEntities.template").toURI().getPath());

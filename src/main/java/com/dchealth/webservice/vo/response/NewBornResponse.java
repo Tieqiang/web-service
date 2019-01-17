@@ -6,7 +6,7 @@ import com.dchealth.webservice.vo.BaseResponse;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement
+@XmlRootElement(name="response")
 public class NewBornResponse extends BaseResponse {
 
 
