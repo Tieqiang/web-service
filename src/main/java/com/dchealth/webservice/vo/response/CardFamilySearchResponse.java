@@ -8,6 +8,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class CardFamilySearchResponse extends BaseResponse {
 
+    public CardFamilySearchResponse() {
+        super();
+    }
+
     private int total;//家庭成员总数|
 
 

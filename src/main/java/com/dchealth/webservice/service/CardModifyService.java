@@ -1,5 +1,6 @@
 package com.dchealth.webservice.service;
 
+import com.dchealth.webservice.vo.BaseResponse;
 import org.springframework.stereotype.Service;
 
 
@@ -8,6 +9,6 @@ public class CardModifyService extends BaseService {
 
     @Override
     public Object execRequest(String message) throws Exception {
-        return null;
+        return new BaseResponse();
     }
 }

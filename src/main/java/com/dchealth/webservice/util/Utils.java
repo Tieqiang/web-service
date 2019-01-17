@@ -25,5 +25,16 @@ public class Utils {
         return objectMapper.writeValueAsString(o);
     }
 
+    public static <T> T getInstance(T c) throws IllegalAccessException, InstantiationException, JsonProcessingException, InvocationTargetException {
+        Class<?> aClass = c.getClass();
+        Method[] declaredMethods = aClass.getDeclaredMethods();
+        for (Method method:declaredMethods){
+            String name = method.getName();
+            if(name.startsWith("set")){
+                method.invoke(c,name.substring(3));
+            }
+        }
+        return c ;
+    }
 
 }
