@@ -1,0 +1,44 @@
+$PBExportHeader$${className}.sru
+forward
+global type ${className} from nonvisualobject
+end type
+end forward
+
+global type ${className} from nonvisualobject autoinstantiate
+end type
+
+type variables
+${variables}
+end variables
+
+forward prototypes
+public function string to_json ()
+public subroutine parse_json (string as_json)
+end prototypes
+
+public function string to_json ();
+sailjson json
+
+json = create sailjson
+${toJson}
+return json.getformatjson("")
+end function
+
+public subroutine parse_json (string as_json);
+sailjson json
+
+json = create sailjson
+json.parse( as_json)
+${parseJson}
+
+end subroutine
+
+on ${className}.create
+call super::create
+TriggerEvent( this, "constructor" )
+end on
+
+on ${className}.destroy
+TriggerEvent( this, "destructor" )
+call super::destroy
+end on

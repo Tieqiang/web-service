@@ -1,0 +1,10 @@
+sailjson json_entity
+int li,li_count
+if not isnull(res_entities) then
+	li_count = upperbound(res_entities)
+	for li = 1 to li_count
+		json_entity = json.addarrayitem( "entities")
+		res_entities[li].to_json()
+		json_entity.parse( res_entities[li].to_json())
+	next
+end if

@@ -3,9 +3,9 @@ package com.dchealth.webservice.service;
 import com.dchealth.webservice.vo.ActionObject;
 import com.dchealth.webservice.vo.BaseResponse;
 import com.dchealth.webservice.vo.CardRegistMessage;
-import com.dchealth.webservice.vo.response.CardFamillySearchResponse;
 import com.dchealth.webservice.vo.response.PersonInfo;
 import com.dchealth.webservice.vo.response.TempCardApplyResponse;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
@@ -27,20 +27,27 @@ public class CardRegistService extends BaseService {
 
         JAXBElement<CardRegistMessage> obj = (JAXBElement<CardRegistMessage> ) unmarshaller.unmarshal(new StreamSource(new StringReader(message)) ,CardRegistMessage.class);
         CardRegistMessage cardRegistMessage = obj.getValue();
-//        PersonInfo cardRegistResponse = new PersonInfo();
-//        cardRegistResponse.setAddress("新的地址");
-//        TempCardApplyResponse tempCardApplyResponse = new TempCardApplyResponse();
-//        tempCardApplyResponse.setQr_code("123123123");
-        CardFamillySearchResponse cardFamillySearchResponse = new CardFamillySearchResponse();
-        cardFamillySearchResponse.setTotal(1000);
-        List<Object> objects = new ArrayList<>();
-
-        for(int i = 0 ;i<10;i++){
-            PersonInfo personInfo = new PersonInfo();
-            personInfo.setName("zhangan"+i);
-            objects.add(personInfo);
-        }
-        cardFamillySearchResponse.setEntities(objects);
-        return cardFamillySearchResponse;
+        PersonInfo personInfoMessage = new PersonInfo();
+        personInfoMessage.setAddress("新的地址");
+        TempCardApplyResponse tempCardApplyResponse = new TempCardApplyResponse();
+        tempCardApplyResponse.setQr_code("123123123");
+        PersonInfo p = new PersonInfo();
+        BeanUtils.copyProperties(cardRegistMessage, p);
+        BaseResponse baseResponse = new BaseResponse();
+        List<Object> list = new ArrayList<>();
+        list.add(p);
+        baseResponse.setEntities(list);
+        return baseResponse;
+//        CardFamilySearchResponse cardFamillySearchResponse = new CardFamilySearchResponse();
+//        cardFamillySearchResponse.setTotal(1000);
+//        List<Object> objects = new ArrayList<>();
+//
+//        for(int i = 0 ;i<10;i++){
+//            PersonInfo personInfo = new PersonInfo();
+//            personInfo.setName("zhangan"+i);
+//            objects.add(personInfo);
+//        }
+//        cardFamillySearchResponse.setEntities(objects);
+//        return cardFamillySearchResponse;
     }
 }
